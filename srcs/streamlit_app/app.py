@@ -15,7 +15,7 @@ DRIVER = '/usr/local/bin/chromedriver'
 # DRIVER = 'chromedriver_linux64/chromedriver'
 # docker run --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.2
 # es = Elasticsearch(host=DOMAIN)
-es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT})
+es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT}])
 utils.check_and_create_index(es, INDEX)
 
 
@@ -45,7 +45,7 @@ def set_session_state():
 def main():
     st.set_page_config(page_title='File Search Engine')
     set_session_state()
-    layout = st.sidebar.radio('', ['Search', 'Add Story'])
+    layout = st.sidebar.radio('', ['Search', 'Add File'])
     st.write(templates.load_css(), unsafe_allow_html=True)
     # main layout
     if layout == 'Search':
@@ -102,13 +102,13 @@ def main():
                 # no result found
                 st.write(templates.no_result_html(), unsafe_allow_html=True)
 
-    elif layout == 'Add Story':
-        st.title('Add Story')
+    elif layout == 'Add File':
+        st.title('Add File')
         st.write(templates.info_add_story(), unsafe_allow_html=True)
         with st.expander('By URL'):
             st.write(templates.info_add_url(), unsafe_allow_html=True)
             url = st.text_input('Enter medium story or list url:')
-            url_type = st.radio('Url type:', ['story', 'list'])
+            url_type = st.radio('Url type:', ['file', 'list'])
             add_story_url = st.button('Add', 'submit_add_story_url')
 
         with st.expander('By JSON'):
@@ -128,7 +128,7 @@ def main():
         if add_story_url:
             stories = {}
             # add story by medium story url
-            if url_type == 'story':
+            if url_type == 'file':
                 with st.spinner('Getting 1 story content...'):
                     stories[url] = utils.get_story_from_url(url, DRIVER)
             # add stories by medium list url
