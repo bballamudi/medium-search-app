@@ -26,16 +26,27 @@ def check_and_create_index(es, index: str):
 
 def safe_check_index(es, index: str, retry: int = 10):
     """ connect to ES with retry """
-    if not retry:
-        print('Out of retries. Bailing out...')
-        sys.exit(1)
-    try:
-        status = es.indices.exists(index)
-        return status
-    except exceptions.ConnectionError as e:
-        print('Unable to connect to ES. Retrying in 5 secs...')
-        time.sleep(5)
-        safe_check_index(es, index, retry - 1)
+    # if not retry:
+    #     print('Out of retries. Bailing out...')
+    #     sys.exit(1)
+    # try:
+    #     status = es.indices.exists(index)
+    #     return status
+    # except exceptions.ConnectionError as e:
+    #     print('Unable to connect to ES. Retrying in 5 secs...')
+    #     time.sleep(5)
+    #     safe_check_index(es, index, retry - 1)
+    while True:
+        try:
+            status = es.indices.exists(index)
+            return status
+            # es.search(index="")
+            break
+        except (
+            exceptions.ConnectionError,
+            exceptions.TransportError
+        ):
+            time.sleep(1)
 
 
 def index_search(es, index: str, keywords: str, filters: str, from_i: int,
