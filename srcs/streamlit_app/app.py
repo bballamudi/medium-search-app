@@ -14,7 +14,8 @@ PORT = 9200
 DRIVER = '/usr/local/bin/chromedriver'
 # DRIVER = 'chromedriver_linux64/chromedriver'
 # docker run --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.2
-es = Elasticsearch(host=DOMAIN)
+# es = Elasticsearch(host=DOMAIN)
+es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT})
 utils.check_and_create_index(es, INDEX)
 
 
@@ -42,14 +43,14 @@ def set_session_state():
 
 
 def main():
-    st.set_page_config(page_title='Medium Search Engine')
+    st.set_page_config(page_title='File Search Engine')
     set_session_state()
     layout = st.sidebar.radio('', ['Search', 'Add Story'])
     st.write(templates.load_css(), unsafe_allow_html=True)
     # main layout
     if layout == 'Search':
         # load css
-        st.title('Search Medium Story')
+        st.title('Search Files')
         if st.session_state.search is None:
             search = st.text_input('Enter search words:')
         else:
