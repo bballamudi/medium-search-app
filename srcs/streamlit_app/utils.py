@@ -24,7 +24,7 @@ def check_and_create_index(es, index: str):
         es.indices.create(index=index, body=mappings, ignore=400)
 
 
-def safe_check_index(es, index: str, retry: int = 3):
+def safe_check_index(es, index: str, retry: int = 10):
     """ connect to ES with retry """
     if not retry:
         print('Out of retries. Bailing out...')
