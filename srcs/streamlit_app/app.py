@@ -9,10 +9,14 @@ from streamlit_app import utils, templates
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+from pathlib import Path
+
+dotEnvPath: str = utils.get_project_root()
+load_dotenv(dotEnvPath)
+
 INDEX = 'medium_data'
 PAGE_SIZE = 5
-DOMAIN = os.environ("ELASTIC_SEARCH_DOMAIN")
+DOMAIN = os.environ["ELASTIC_SEARCH_DOMAIN"]
 # DOMAIN = '0.0.0.0'
 PORT = int(os.getenv("ELASTIC_SEARCH_PORT", 9200))
 DRIVER = '/usr/local/bin/chromedriver'

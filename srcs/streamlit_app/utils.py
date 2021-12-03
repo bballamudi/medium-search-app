@@ -1,6 +1,7 @@
 import sys
 import time
 import streamlit as st
+from pathlib import Path
 from elasticsearch import exceptions
 sys.path.append('srcs')
 import medium
@@ -159,3 +160,7 @@ def get_story_from_url(url: str, chrome: str) -> dict:
 
     print(f'Error getting {url}')
     return {}
+
+def get_project_root() -> str:
+    projectRootPath = Path(__file__).parent.parent
+    return str(projectRootPath)
