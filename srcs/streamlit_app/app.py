@@ -12,18 +12,18 @@ import os
 from pathlib import Path
 
 dotEnvPath: str = utils.get_project_root()
-load_dotenv(dotEnvPath)
+load_dotenv(dotEnvPath, override=True)
 
 INDEX = 'medium_data'
 PAGE_SIZE = 5
-DOMAIN = os.environ["ELASTIC_SEARCH_DOMAIN"]
+DOMAIN = 'es' #os.getenv("ELASTIC_SEARCH_DOMAIN")
 # DOMAIN = '0.0.0.0'
-PORT = int(os.getenv("ELASTIC_SEARCH_PORT", 9200))
+PORT = 9200 #int(os.getenv("ELASTIC_SEARCH_PORT", 9200))
 DRIVER = '/usr/local/bin/chromedriver'
 # DRIVER = 'chromedriver_linux64/chromedriver'
 # docker run --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.2
 # es = Elasticsearch(host=DOMAIN)
-es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT}], timeout=30, max_retries=10, retry_on_timeout=True)
+es = Elasticsearch([{"host": DOMAIN, "port": PORT}], timeout=30, max_retries=10, retry_on_timeout=True)
 utils.check_and_create_index(es, INDEX)
 
 
