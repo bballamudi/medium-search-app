@@ -6,11 +6,15 @@ from elasticsearch import Elasticsearch
 sys.path.append('srcs')
 from streamlit_app import utils, templates
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 INDEX = 'medium_data'
 PAGE_SIZE = 5
-DOMAIN = 'es'
+DOMAIN = os.environ("ELASTIC_SEARCH_DOMAIN")
 # DOMAIN = '0.0.0.0'
-PORT = 9200
+PORT = int(os.getenv("ELASTIC_SEARCH_PORT", 9200))
 DRIVER = '/usr/local/bin/chromedriver'
 # DRIVER = 'chromedriver_linux64/chromedriver'
 # docker run --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.2
