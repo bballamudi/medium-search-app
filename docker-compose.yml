@@ -7,18 +7,18 @@ services:
        - discovery.type=single-node
     ports: 
        - 9200:9200
-    volumes:
-       - esdata:/usr/share/elasticsearch/data
+    # volumes:
+    #    - esdata:/usr/share/elasticsearch/data
 
   web:
-    # image: file-search-app
-    build: .
+    image: ${DOCKER_REGISTRY}/file-search-app:web
+    # build: .
     container_name: search-app
     depends_on:
       - es
     ports: 
       - 8501:8501
 
-volumes:
-  esdata:
-    driver: local
+# volumes:
+#   esdata:
+#     driver: local

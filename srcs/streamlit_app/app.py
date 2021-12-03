@@ -15,7 +15,7 @@ DRIVER = '/usr/local/bin/chromedriver'
 # DRIVER = 'chromedriver_linux64/chromedriver'
 # docker run --rm -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.11.2
 # es = Elasticsearch(host=DOMAIN)
-es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT}])
+es = Elasticsearch(hosts=[{"host": DOMAIN, "port": PORT}], timeout=30, max_retries=10, retry_on_timeout=True)
 utils.check_and_create_index(es, INDEX)
 
 
