@@ -2,12 +2,12 @@ import sys
 import time
 import streamlit as st
 from pathlib import Path
-from elasticsearch import exceptions
+from elasticsearch import exceptions, Elasticsearch
 sys.path.append('srcs')
 import medium
 
 
-def check_and_create_index(es, index: str):
+def check_and_create_index(es: Elasticsearch, index: str):
     """ checks if index exits and loads the data accordingly """
     mappings = {
         'mappings': {
@@ -22,7 +22,7 @@ def check_and_create_index(es, index: str):
     }
     if not safe_check_index(es, index):
         print(f'Index {index} not found. Create a new one...')
-        es.indices.create(index=index, body=mappings, ignore=400)
+        es.indices.create(index=index, body=mappings, ignore=400, timeout=30)
 
 
 def safe_check_index(es, index: str, retry: int = 10):
